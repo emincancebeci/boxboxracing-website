@@ -205,31 +205,19 @@
 						</div>
 					</div>
 						<div class="col-md-12">
-   								<div class="col-md-12">
-    								<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    
-    									<div id="map" style="height: 500px; width: 100%; z-index: 1;"></div>
-
-    									<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-    									<script>
-        
-        								var map = L.map('map').setView([40.9517, 29.4050], 14);
-
-        
-        								L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-           									 maxZoom: 19,
-            								attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-       									 }).addTo(map);
-
-        
-        								var marker = L.marker([40.9517, 29.4050]).addTo(map);
-
-        
-        							marker.bindPopup("<b>BoxBox Racing HQ</b><br>Pit Yolu, Garaj No:1<br>İstanbul Park").openPopup();
-    							</script>
-							</div>
-    					</div>
+    						<div class="map" style="height: 500px; width: 100%;">
+        						<iframe 
+            						width="100%" 
+            						height="100%" 
+            						id="gmap_canvas" 
+            						src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d246.03714043445262!2d29.403801622541934!3d40.95244996596245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cad632f4d80217%3A0x6ad6c09e7f4ed557!2zQWtmxLFyYXQsIDM0OTU5IFR1emxhL8Swc3RhbmJ1bA!5e1!3m2!1str!2str!4v1765119477706!5m2!1str!2str" 
+            						frameborder="0" 
+            						scrolling="no" 
+            						marginheight="0" 
+            						marginwidth="0">
+        						</iframe>
+    						</div>
+						</div>
 				</div>
     	</div>
     </section>
