@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <title>Admin Panel - Ürün Yönetimi | BoxBox Racing</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+      .admin-sidebar {
+        min-height: 100vh;
+        background: #064acb;
+        padding: 20px 0;
+      }
+      .admin-sidebar .nav-link {
+        color: #fff;
+        padding: 12px 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .admin-sidebar .nav-link:hover,
+      .admin-sidebar .nav-link.active {
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+      }
+      .admin-content {
+        padding: 30px;
+      }
+      .admin-header {
+        background: #f8f9fa;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 5px;
+      }
+      .form-section {
+        background: #fff;
+        padding: 25px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+      }
+      .file-upload-area {
+        border: 2px dashed #064acb;
+        padding: 30px;
+        text-align: center;
+        border-radius: 5px;
+        background: #f8f9fa;
+        cursor: pointer;
+      }
+      .file-upload-area:hover {
+        background: #e9ecef;
+      }
+      .urun-list-item {
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        background: #fff;
+        transition: all 0.3s;
+      }
+      .urun-list-item:hover {
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+      }
+      .price-badge {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #064acb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3 admin-sidebar">
+          <div class="text-center mb-4">
+            <h4 class="text-white">BoxBox Racing</h4>
+            <p class="text-white-50">Admin Panel</p>
+          </div>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">
+                <i class="fa fa-home"></i> Ana Sayfa
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="urunler.html">
+                <i class="fa fa-cogs"></i> Ürün Yönetimi
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="duyurular.html">
+                <i class="fa fa-bullhorn"></i> Duyuru Yönetimi
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="istatistikler.html">
+                <i class="fa fa-bar-chart"></i> İstatistikler
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../contact.html">
+                <i class="fa fa-envelope"></i> İletişim Mesajları
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">
+                <i class="fa fa-sign-out"></i> Çıkış Yap
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-md-9 admin-content">
+          <div class="admin-header">
+            <h2 class="mb-0"><i class="fa fa-ticket"></i> Padok Gezileri Yönetimi</h2>
+            <p class="text-muted mb-0">Padok turları, biletler ve ürünleri buradan ekleyip düzenleyebilirsiniz.</p>
+          </div>
+
+          <div class="form-section">
+            <h4 class="mb-4">Yeni Tur/Ürün Ekle</h4>
+            <form id="urunForm">
+              <div class="row">
+                <div class="col-md-8 mb-3">
+                  <label for="urunBaslik">Tur Adı <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="urunBaslik" placeholder="Örn: Monaco GP VIP Padok Turu" required>
+                </div>
+                
+                <div class="col-md-4 mb-3">
+                  <label for="urunFiyat">Fiyat (€) <span class="text-danger">*</span></label>
+                  <input type="number" class="form-control" id="urunFiyat" placeholder="Örn: 1500" required>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                  <label for="urunAciklama">Açıklama / Detaylar <span class="text-danger">*</span></label>
+                  <textarea class="form-control" id="urunAciklama" rows="4" placeholder="Tur detaylarını, neleri kapsadığını buraya yazın..." required></textarea>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                  <label>Ürün Görseli</label>
+                  <div class="file-upload-area" onclick="document.getElementById('fileImage').click()">
+                    <i class="fa fa-camera fa-3x text-primary mb-3"></i>
+                    <p class="mb-0">Görsel yüklemek için tıklayın</p>
+                    <p class="small text-muted mb-0">PNG, JPG (Önerilen: 800x600px)</p>
+                  </div>
+                  <input type="file" id="fileImage" accept="image/*" style="display: none;">
+                  <div id="imagePreview" class="mt-3"></div>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="aktifUrun" checked>
+                    <label class="form-check-label" for="aktifUrun">
+                      Ürünü satışa aç (Aktif)
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fa fa-save"></i> Ürünü Kaydet
+                  </button>
+                  <button type="reset" class="btn btn-secondary btn-lg ml-2">
+                    <i class="fa fa-refresh"></i> Temizle
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="form-section">
+            <h4 class="mb-4">Mevcut Padok Turları</h4>
+            
+            <div id="urunListesi">
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    
+    <script>
+      // LocalStorage Anahtarı (Duyurular ile karışmasın diye değiştirdim)
+      const STORAGE_KEY = 'boxbox_products';
+      let editingId = null;
+      let selectedImage = null;
+
+      // Sayfa yüklendiğinde
+      document.addEventListener('DOMContentLoaded', function() {
+        loadProducts();
+        
+        // İlk kullanımda örnek veri ekle
+        if (getProducts().length === 0) {
+          initDefaultProducts();
+        }
+      });
+
+      // Varsayılan Ürünler
+      function initDefaultProducts() {
+        const defaultProducts = [
+          {
+            id: Date.now(),
+            baslik: 'Silverstone GP Padok Turu',
+            fiyat: '450',
+            aciklama: 'Efsanevi Silverstone pistinde yarış öncesi garaj ziyareti, pilotlarla tanışma fırsatı ve öğle yemeği dahil.',
+            resim: '../images/image_1.jpg',
+            aktif: true
+          },
+          {
+            id: Date.now() + 1,
+            baslik: 'Monaco VIP Yat & Padok',
+            fiyat: '2500',
+            aciklama: 'Monaco GP hafta sonunda lüks yat deneyimi ve sınırlı sayıda özel padok giriş kartı.',
+            resim: '../images/image_2.jpg',
+            aktif: true
+          }
+        ];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultProducts));
+        loadProducts();
+      }
+
+      function getProducts() {
+        const data = localStorage.getItem(STORAGE_KEY);
+        return data ? JSON.parse(data) : [];
+      }
+
+      function saveProducts(products) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+      }
+
+      function loadProducts() {
+        const products = getProducts();
+        const container = document.getElementById('urunListesi');
+
+        if (products.length === 0) {
+          container.innerHTML = '<p class="text-muted text-center">Henüz ürün/tur eklenmemiş.</p>';
+          return;
+        }
+
+        // En son eklenen en üstte
+        const sorted = products.sort((a, b) => b.id - a.id);
+
+        container.innerHTML = sorted.map(urun => {
+          const durumBadge = urun.aktif 
+            ? '<span class="badge badge-success">Satışta</span>'
+            : '<span class="badge badge-secondary">Pasif</span>';
+
+          return `
+            <div class="urun-list-item" data-id="${urun.id}">
+              <div class="row align-items-center">
+                <div class="col-md-2">
+                  <img src="${urun.resim || '../images/image_1.jpg'}" class="img-fluid rounded" style="height: 100px; width: 100%; object-fit: cover;">
+                </div>
+                <div class="col-md-7">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-1">${urun.baslik}</h5>
+                    ${durumBadge}
+                  </div>
+                  <p class="price-badge mb-1">$${urun.fiyat}</p>
+                  <p class="text-muted small mb-0">${urun.aciklama}</p>
+                </div>
+                <div class="col-md-3 text-right">
+                  <button class="btn btn-sm btn-info mr-1" onclick="editProduct('${urun.id}')">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" onclick="deleteProduct('${urun.id}')">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Görsel seçimi
+      document.getElementById('fileImage').addEventListener('change', function(e) {
+        var file = e.target.files[0];
+        if (file) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            selectedImage = e.target.result;
+            document.getElementById('imagePreview').innerHTML = 
+              '<img src="' + e.target.result + '" class="img-thumbnail" style="max-height: 150px;">';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Kaydetme İşlemi
+      document.getElementById('urunForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const baslik = document.getElementById('urunBaslik').value;
+        const fiyat = document.getElementById('urunFiyat').value;
+        const aciklama = document.getElementById('urunAciklama').value;
+        const aktif = document.getElementById('aktifUrun').checked;
+
+        const products = getProducts();
+        const yeniUrun = {
+          id: editingId || Date.now(),
+          baslik: baslik,
+          fiyat: fiyat,
+          aciklama: aciklama,
+          resim: selectedImage || '../images/image_1.jpg',
+          aktif: aktif
+        };
+
+        if (editingId) {
+          const index = products.findIndex(p => p.id == editingId);
+          if (index !== -1) products[index] = yeniUrun;
+        } else {
+          products.push(yeniUrun);
+        }
+
+        saveProducts(products);
+        loadProducts();
+        resetForm();
+        alert(editingId ? 'Ürün güncellendi!' : 'Ürün eklendi!');
+      });
+
+      function editProduct(id) {
+        const products = getProducts();
+        const urun = products.find(p => p.id == id);
+        
+        if (!urun) return;
+
+        editingId = id;
+        document.getElementById('urunBaslik').value = urun.baslik;
+        document.getElementById('urunFiyat').value = urun.fiyat;
+        document.getElementById('urunAciklama').value = urun.aciklama;
+        document.getElementById('aktifUrun').checked = urun.aktif;
+        
+        if (urun.resim) {
+          selectedImage = urun.resim;
+          document.getElementById('imagePreview').innerHTML = 
+            '<img src="' + urun.resim + '" class="img-thumbnail" style="max-height: 150px;">';
+        }
+        
+        document.querySelector('.form-section h4').textContent = 'Ürünü Düzenle';
+        window.scrollTo(0, 0);
+      }
+
+      function deleteProduct(id) {
+        if (confirm('Bu turu/ürünü silmek istediğine emin misin?')) {
+          const products = getProducts().filter(p => p.id != id);
+          saveProducts(products);
+          loadProducts();
+        }
+      }
+
+      function resetForm() {
+        document.getElementById('urunForm').reset();
+        document.getElementById('imagePreview').innerHTML = '';
+        selectedImage = null;
+        editingId = null;
+        document.querySelector('.form-section h4').textContent = 'Yeni Tur/Ürün Ekle';
+      }
+
+      document.querySelector('button[type="reset"]').addEventListener('click', resetForm);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <title>Admin Panel - Duyuru Yönetimi | BoxBox Racing</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    
+    <style>
+      .admin-sidebar {
+        min-height: 100vh;
+        background: #064acb;
+        padding: 20px 0;
+      }
+      .admin-sidebar .nav-link {
+        color: #fff;
+        padding: 12px 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .admin-sidebar .nav-link:hover,
+      .admin-sidebar .nav-link.active {
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+      }
+      .admin-content {
+        padding: 30px;
+      }
+      .admin-header {
+        background: #f8f9fa;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 5px;
+      }
+      .form-section {
+        background: #fff;
+        padding: 25px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+      }
+      .file-upload-area {
+        border: 2px dashed #064acb;
+        padding: 30px;
+        text-align: center;
+        border-radius: 5px;
+        background: #f8f9fa;
+        cursor: pointer;
+      }
+      .file-upload-area:hover {
+        background: #e9ecef;
+      }
+      .duyuru-list-item {
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 15px;
+        background: #fff;
+      }
+      .duyuru-list-item:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 admin-sidebar">
+          <div class="text-center mb-4">
+            <h4 class="text-white">BoxBox Racing</h4>
+            <p class="text-white-50">Admin Panel</p>
+          </div>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">
+                <i class="fa fa-home"></i> Ana Sayfa
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="urunyonetim.html">
+                <i class="fa fa-cogs"></i> Ürün Yönetimi
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="duyurular.html">
+                <i class="fa fa-bullhorn"></i> Duyuru Yönetimi
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../istatistik.html">
+                <i class="fa fa-bar-chart"></i> İstatistikler
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../contact.html">
+                <i class="fa fa-envelope"></i> İletişim Mesajları
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../index.html">
+                <i class="fa fa-sign-out"></i> Çıkış Yap
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 admin-content">
+          <div class="admin-header">
+            <h2 class="mb-0"><i class="fa fa-bullhorn"></i> Duyuru Yönetimi</h2>
+            <p class="text-muted mb-0">Duyuru, kampanya ve fırsatları buradan yönetebilirsiniz</p>
+          </div>
+
+          <!-- Yeni Duyuru Ekleme Formu -->
+          <div class="form-section">
+            <h4 class="mb-4">Yeni Duyuru Ekle</h4>
+            <form id="duyuruForm">
+              <div class="row">
+                <div class="col-md-12 mb-3">
+                  <label for="duyuruBaslik">Duyuru Başlığı <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="duyuruBaslik" placeholder="Örn: Yeni Sezon Yarış Paketi İndirimi" required>
+                </div>
+                
+                <div class="col-md-12 mb-3">
+                  <label for="duyuruTarih">Yayın Tarihi <span class="text-danger">*</span></label>
+                  <input type="date" class="form-control" id="duyuruTarih" required>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                  <label for="duyuruIcerik">İçerik <span class="text-danger">*</span></label>
+                  <textarea class="form-control" id="duyuruIcerik" rows="6" placeholder="Duyuru içeriğini buraya yazın..." required></textarea>
+                  <small class="form-text text-muted">HTML etiketleri kullanabilirsiniz (p, strong, ul, li vb.)</small>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                  <label>Kapak Görseli</label>
+                  <div class="file-upload-area" onclick="document.getElementById('fileImage').click()">
+                    <i class="fa fa-image fa-3x text-primary mb-3"></i>
+                    <p class="mb-0">Görsel yüklemek için tıklayın</p>
+                    <p class="small text-muted mb-0">PNG, JPG, JPEG (Max: 5MB)</p>
+                  </div>
+                  <input type="file" id="fileImage" accept="image/*" style="display: none;">
+                  <div id="imagePreview" class="mt-3"></div>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                  <label>PDF Dosyası Ekle</label>
+                  <div class="file-upload-area" onclick="document.getElementById('filePDF').click()">
+                    <i class="fa fa-file-pdf-o fa-3x text-danger mb-3"></i>
+                    <p class="mb-0">PDF dosyası yüklemek için tıklayın</p>
+                    <p class="small text-muted mb-0">PDF formatında (Max: 10MB)</p>
+                  </div>
+                  <input type="file" id="filePDF" accept=".pdf" style="display: none;">
+                  <div id="pdfPreview" class="mt-3"></div>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                  <label>Word Dosyası Ekle</label>
+                  <div class="file-upload-area" onclick="document.getElementById('fileWord').click()">
+                    <i class="fa fa-file-word-o fa-3x text-primary mb-3"></i>
+                    <p class="mb-0">Word dosyası yüklemek için tıklayın</p>
+                    <p class="small text-muted mb-0">DOC, DOCX formatında (Max: 10MB)</p>
+                  </div>
+                  <input type="file" id="fileWord" accept=".doc,.docx" style="display: none;">
+                  <div id="wordPreview" class="mt-3"></div>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="aktifDuyuru" checked>
+                    <label class="form-check-label" for="aktifDuyuru">
+                      Duyuruyu aktif olarak yayınla
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fa fa-save"></i> Duyuruyu Kaydet
+                  </button>
+                  <button type="reset" class="btn btn-secondary btn-lg ml-2">
+                    <i class="fa fa-refresh"></i> Formu Temizle
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Mevcut Duyurular Listesi -->
+          <div class="form-section">
+            <h4 class="mb-4">Mevcut Duyurular</h4>
+            <p class="text-muted">Duyurular en yeniden en eskiye doğru sıralanmıştır.</p>
+            
+            <div id="duyuruListesi">
+              <p class="text-muted text-center" id="emptyMessage">Henüz duyuru eklenmemiş. Yukarıdaki formdan yeni duyuru ekleyebilirsiniz.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    
+    <script>
+      // LocalStorage Anahtarı
+      const STORAGE_KEY = 'boxbox_duyurular';
+      let editingId = null;
+      let selectedImage = null;
+      let selectedPDF = null;
+      let selectedWord = null;
+
+      // Sayfa yüklendiğinde duyuruları göster
+      document.addEventListener('DOMContentLoaded', function() {
+        loadDuyurular();
+        
+        // Örnek veriler yoksa ekle (ilk kullanım)
+        if (getDuyurular().length === 0) {
+          initDefaultDuyurular();
+        }
+      });
+
+      
+     
+
+      // LocalStorage'dan duyuruları al
+      function getDuyurular() {
+        const data = localStorage.getItem(STORAGE_KEY);
+        return data ? JSON.parse(data) : [];
+      }
+
+      // LocalStorage'a duyuruları kaydet
+      function saveDuyurular(duyurular) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(duyurular));
+      }
+
+      // Duyuruları yükle ve göster
+      function loadDuyurular() {
+        const duyurular = getDuyurular();
+        const container = document.getElementById('duyuruListesi');
+        const emptyMessage = document.getElementById('emptyMessage');
+
+        if (duyurular.length === 0) {
+          container.innerHTML = '<p class="text-muted text-center">Henüz duyuru eklenmemiş. Yukarıdaki formdan yeni duyuru ekleyebilirsiniz.</p>';
+          return;
+        }
+
+        // En yeniden en eskiye sırala
+        const sorted = duyurular.sort((a, b) => new Date(b.tarih) - new Date(a.tarih));
+
+        container.innerHTML = sorted.map(duyuru => {
+          const tarihFormatted = new Date(duyuru.tarih).toLocaleDateString('tr-TR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+
+          const kisaIcerik = duyuru.icerik.length > 100 
+            ? duyuru.icerik.substring(0, 100) + '...' 
+            : duyuru.icerik;
+
+          const durumBadge = duyuru.aktif 
+            ? '<small class="text-success"><i class="fa fa-check-circle"></i> Aktif</small>'
+            : '<small class="text-secondary"><i class="fa fa-times-circle"></i> Pasif</small>';
+
+          return `
+            <div class="duyuru-list-item" data-id="${duyuru.id}">
+              <div class="row align-items-center">
+                <div class="col-md-2">
+                  <img src="${duyuru.resim || '../images/image_1.jpg'}" class="img-fluid rounded" alt="Duyuru" style="max-height: 120px; object-fit: cover; width: 100%;">
+                </div>
+                <div class="col-md-7">
+                  <h5>${duyuru.baslik}</h5>
+                  <p class="text-muted mb-1"><i class="fa fa-calendar"></i> ${tarihFormatted}</p>
+                  <p class="mb-2">${kisaIcerik}</p>
+                  ${durumBadge}
+                </div>
+                <div class="col-md-3 text-right">
+                  <button class="btn btn-sm btn-primary mb-2" onclick="editDuyuru('${duyuru.id}')">
+                    <i class="fa fa-edit"></i> Düzenle
+                  </button>
+                  <button class="btn btn-sm btn-danger mb-2" onclick="deleteDuyuru('${duyuru.id}')">
+                    <i class="fa fa-trash"></i> Sil
+                  </button>
+                  <br>
+                  <small class="text-muted">
+                    ${duyuru.pdf ? '<i class="fa fa-file-pdf-o"></i> PDF<br>' : ''}
+                    ${duyuru.word ? '<i class="fa fa-file-word-o"></i> Word<br>' : ''}
+                    ${duyuru.resim ? '<i class="fa fa-image"></i> Görsel' : ''}
+                  </small>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Görsel Seçme Kısmı (Simülasyon)
+      document.getElementById('fileImage').addEventListener('change', function(e) {
+        var file = e.target.files[0];
+        if (file) {
+     
+          selectedImage = "../images/boxboxduyuru-min.png"; 
+    
+         
+          document.getElementById('imagePreview').innerHTML = 
+            '<div class="alert alert-success"><i class="fa fa-check"></i> ' + file.name + ' seçildi (Simülasyon Modu)</div>';
+  }
+});
+
+
+      document.getElementById('filePDF').addEventListener('change', function(e) {
+        var file = e.target.files[0];
+        if (file) {
+          selectedPDF = file.name;
+          document.getElementById('pdfPreview').innerHTML = 
+            '<div class="alert alert-info"><i class="fa fa-file-pdf-o"></i> ' + file.name + '</div>';
+        }
+      });
+
+      // Word Seçme
+      document.getElementById('fileWord').addEventListener('change', function(e) {
+        var file = e.target.files[0];
+        if (file) {
+          selectedWord = file.name; 
+          document.getElementById('wordPreview').innerHTML = 
+            '<div class="alert alert-info"><i class="fa fa-file-word-o"></i> ' + file.name + ' hazır.</div>';
+        }
+      });
+
+      // Form gönderimi
+      document.getElementById('duyuruForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const baslik = document.getElementById('duyuruBaslik').value;
+        const tarih = document.getElementById('duyuruTarih').value;
+        const icerik = document.getElementById('duyuruIcerik').value;
+        const aktif = document.getElementById('aktifDuyuru').checked;
+
+        if (!baslik || !tarih || !icerik) {
+          alert('Lütfen tüm zorunlu alanları doldurun!');
+          return;
+        }
+
+        const duyurular = getDuyurular();
+        const yeniDuyuru = {
+          id: editingId || Date.now(),
+          baslik: baslik,
+          tarih: tarih,
+          icerik: icerik,
+          resim: selectedImage || '../images/image_1.jpg',
+          pdf: selectedPDF || null,
+          word: selectedWord || null,
+          aktif: aktif
+        };
+
+        if (editingId) {
+          // Düzenleme modu
+          const index = duyurular.findIndex(d => d.id == editingId);
+          if (index !== -1) {
+            duyurular[index] = yeniDuyuru;
+          }
+        } else {
+          // Yeni ekleme
+          duyurular.push(yeniDuyuru);
+        }
+
+        saveDuyurular(duyurular);
+        loadDuyurular();
+        
+        // Formu temizle
+        resetForm();
+        
+        alert(editingId ? 'Duyuru başarıyla güncellendi!' : 'Duyuru başarıyla eklendi!');
+      });
+
+ 
+      function resetForm() {
+        document.getElementById('duyuruForm').reset();
+        document.getElementById('imagePreview').innerHTML = '';
+        document.getElementById('pdfPreview').innerHTML = '';
+        document.getElementById('wordPreview').innerHTML = '';
+        selectedImage = null;
+        selectedPDF = null;
+        selectedWord = null;
+        editingId = null;
+        
+      
+        document.querySelector('.form-section h4').textContent = 'Yeni Duyuru Ekle';
+      }
+
+    
+      function editDuyuru(id) {
+        const duyurular = getDuyurular();
+        const duyuru = duyurular.find(d => d.id == id);
+        
+        if (!duyuru) {
+          alert('Duyuru bulunamadı!');
+          return;
+        }
+
+        editingId = id;
+        
+        // Formu doldur
+        document.getElementById('duyuruBaslik').value = duyuru.baslik;
+        document.getElementById('duyuruTarih').value = duyuru.tarih;
+        document.getElementById('duyuruIcerik').value = duyuru.icerik;
+        document.getElementById('aktifDuyuru').checked = duyuru.aktif;
+        
+        if (duyuru.resim) {
+          selectedImage = duyuru.resim;
+          document.getElementById('imagePreview').innerHTML = 
+            '<img src="' + duyuru.resim + '" class="img-thumbnail" style="max-width: 200px;">';
+        }
+        
+        if (duyuru.pdf) {
+          selectedPDF = duyuru.pdf;
+          document.getElementById('pdfPreview').innerHTML = 
+            '<div class="alert alert-info"><i class="fa fa-file-pdf-o"></i> ' + duyuru.pdf + '</div>';
+        }
+        
+        if (duyuru.word) {
+          selectedWord = duyuru.word;
+          document.getElementById('wordPreview').innerHTML = 
+            '<div class="alert alert-info"><i class="fa fa-file-word-o"></i> ' + duyuru.word + '</div>';
+        }
+
+     
+        document.querySelector('.form-section h4').textContent = 'Duyuruyu Düzenle';
+        
+   
+        document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth' });
+      }
+
+  
+      function deleteDuyuru(id) {
+        if (!confirm('Bu duyuruyu silmek istediğinizden emin misiniz?')) {
+          return;
+        }
+
+        const duyurular = getDuyurular();
+        const filtered = duyurular.filter(d => d.id != id);
+        saveDuyurular(filtered);
+        loadDuyurular();
+        
+        alert('Duyuru başarıyla silindi!');
+      }
+
+      // Reset butonu
+      document.querySelector('button[type="reset"]').addEventListener('click', function() {
+        resetForm();
+      });
+    </script>
+  </body>
+</html>
+
